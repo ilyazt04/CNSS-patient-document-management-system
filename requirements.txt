@@ -15,3 +15,6 @@ django-environ
 pymupdf
 reportlab
 pypdf
+mysqlclient
+gunicorn
+psycopg2-binary
