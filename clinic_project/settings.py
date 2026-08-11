@@ -92,6 +92,9 @@ DATABASES = {
         'PASSWORD': env('CNSS_DB_PASSWORD'),
         'HOST': env('CNSS_DB_HOST'),
         'PORT': env('CNSS_DB_PORT'),
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
 
