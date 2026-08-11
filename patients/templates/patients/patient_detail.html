@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}{{ patient.full_name }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>{{ patient.full_name }}</h1>
+    <div style="display: flex; gap: 8px;">
+        <a href="{% url 'patients:edit' patient.pk %}" class="btn btn--secondary">Modifier</a>
+        <a href="{% url 'visits:create' patient.pk %}" class="btn">+ Nouvelle visite</a>
+    </div>
+</div>
+
+<div class="card">
+    <h2 style="font-size: 15px; margin-top: 0;">Informations personnelles</h2>
+    <table>
+        <tr><th>N° CNSS</th><td class="code">{{ patient.cnss_number|default:"—" }}</td></tr>
+        <tr><th>N° CIN</th><td class="code">{{ patient.cin_number|default:"—" }}</td></tr>
+        <tr><th>Date de naissance</th><td>{{ patient.date_of_birth|default:"—" }}</td></tr>
+        <tr><th>Adresse</th><td>{{ patient.address|default:"—" }}</td></tr>
+        <tr><th>Médecin</th><td>{{ patient.doctor|default:"—" }}</td></tr>
+        <tr><th>Lien de parenté</th><td>{{ patient.get_relationship_to_insured_display }}</td></tr>
+        {% if patient.relationship_to_insured != "SELF" %}
+        <tr><th>Assuré</th><td>{{ patient.insured_first_name }} {{ patient.insured_last_name }} — <span class="code">{{ patient.insured_cnss_number }}</span></td></tr>
+        {% endif %}
+    </table>
+</div>
+
+<div class="card">
+    <h2 style="font-size: 15px; margin-top: 0;">Visites</h2>
+    {% if patient.visits.all %}
+    <table>
+        <thead><tr><th>Date</th><th>Type</th><th>N° admission</th><th>Statut</th><th></th></tr></thead>
+        <tbody>
+        {% for visit in patient.visits.all %}
+            <tr>
+                <td>{{ visit.date }}</td>
+                <td>{{ visit.visit_type|default:"—" }}</td>
+                <td class="code">{{ visit.stay_reference|default:"—" }}</td>
+                <td>
+                    {% if visit.status == "SENT_TO_CNSS" %}
+                        <span class="badge badge--success">Envoyé à la CNSS</span>
+                    {% else %}
+                        <span class="badge badge--warning">En préparation</span>
+                    {% endif %}
+                </td>
+                <td><a href="{% url 'visits:detail' visit.pk %}">Ouvrir</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty-state">Aucune visite pour ce patient.</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2 style="font-size: 15px; margin-top: 0;">Documents administratifs</h2>
+    {% if patient.administrative_documents.all %}
+    <table>
+        <thead><tr><th>Fichier</th><th>Type</th><th></th></tr></thead>
+        <tbody>
+        {% for doc in patient.administrative_documents.all %}
+            {% if doc.is_active %}
+            <tr>
+                <td>{{ doc.filename }}</td>
+                <td>{{ doc.document_type.name }}</td>
+                <td><a href="{{ doc.file.url }}" target="_blank">Voir</a></td>
+                <td><a href="{% url 'documents:delete' doc.pk %}?modal=1" style="color: var(--danger);">Supprimer</a></td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty-state">Aucun document administratif (ex. CIN).</p>
+    {% endif %}
+    <a href="{% url 'documents:upload_administrative' patient.pk %}?modal=1" class="btn btn--secondary">+ Ajouter un document</a>
+</div>
+{% endblock %}

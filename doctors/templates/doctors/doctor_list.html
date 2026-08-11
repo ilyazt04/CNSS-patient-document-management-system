@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Médecins{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Médecins</h1>
+    <a href="{% url 'doctors:create' %}" class="btn">+ Nouveau médecin</a>
+</div>
+
+{% if doctors %}
+<div class="stat-grid">
+    {% for doctor in doctors %}
+    <div class="card">
+        <h2 style="font-size: 16px; margin: 0 0 4px;">{{ doctor.name }}</h2>
+        <p style="color: var(--text-muted); font-size: 13px; margin: 0 0 12px;">{{ doctor.specialty|default:"—" }}</p>
+        <table style="font-size: 13px;">
+            <tr><th>Contact</th><td>{{ doctor.contact|default:"—" }}</td></tr>
+            <tr><th>N° INPE</th><td class="code">{{ doctor.inpe_number|default:"—" }}</td></tr>
+            <tr><th>N° IF</th><td class="code">{{ doctor.if_number|default:"—" }}</td></tr>
+        </table>
+        <a href="{% url 'doctors:edit' doctor.pk %}" style="font-size: 13px;">Modifier</a>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="empty-state">Aucun médecin enregistré.</p>
+{% endif %}
+{% endblock %}

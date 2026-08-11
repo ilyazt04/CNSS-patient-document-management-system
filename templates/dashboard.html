@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Tableau de bord{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Tableau de bord</h1>
+</div>
+
+<div class="stat-grid">
+    <div class="stat-card">
+        <div class="stat-card__value">{{ total_patients }}</div>
+        <div class="stat-card__label">Patients</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card__value">{{ visits_in_preparation }}</div>
+        <div class="stat-card__label">Visites en préparation</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card__value">{{ visits_sent }}</div>
+        <div class="stat-card__label">Envoyées à la CNSS</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Documents récents</h2>
+    {% if recent_documents %}
+    <table>
+        <thead><tr><th>Fichier</th><th>Type</th><th>Origine</th><th>Patient</th></tr></thead>
+        <tbody>
+        {% for doc in recent_documents %}
+            <tr>
+                <td>{{ doc.filename }}</td>
+                <td>{{ doc.document_type.name }}</td>
+                <td>{{ doc.get_source_display }}</td>
+                <td>{% if doc.patient %}{{ doc.patient }}{% else %}{{ doc.visit.patient }}{% endif %}</td>            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty-state">Aucun document pour le moment.</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h2>Activité récente</h2>
+    {% if recent_activity %}
+    <table>
+        <thead><tr><th>Action</th><th>Table</th><th>Utilisateur</th><th>Date</th></tr></thead>
+        <tbody>
+        {% for log in recent_activity %}
+            <tr>
+                <td>{{ log.action }}</td>
+                <td>{{ log.table_name }}</td>
+                <td>{{ log.user|default:"—" }}</td>
+                <td>{{ log.timestamp|date:"d/m/Y H:i" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty-state">Aucune activité enregistrée.</p>
+    {% endif %}
+</div>
+{% endblock %}

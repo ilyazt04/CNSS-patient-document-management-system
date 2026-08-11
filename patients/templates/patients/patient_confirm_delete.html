@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Supprimer{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 480px;">
+    <h1 style="font-size: 17px;">Supprimer {{ patient.full_name }} ?</h1>
+    <p style="color: var(--text-muted); font-size: 14px;">Le patient sera désactivé (suppression douce) et n'apparaîtra plus dans les listes, mais ses données restent conservées.</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn" style="background: var(--danger);">Confirmer la suppression</button>
+        <a href="{% url 'patients:detail' patient.pk %}" class="btn btn--secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

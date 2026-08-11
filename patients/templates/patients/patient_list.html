@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Patients{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Patients</h1>
+    <a href="{% url 'patients:create' %}" class="btn">+ Nouveau patient</a>
+</div>
+
+<div class="card">
+    <form method="get" style="display: flex; gap: 10px; margin-bottom: 16px;">
+        <select name="field" style="width: auto;">
+            <option value="name" {% if field == 'name' %}selected{% endif %}>Nom</option>
+            <option value="cnss" {% if field == 'cnss' %}selected{% endif %}>N° CNSS</option>
+            <option value="cin" {% if field == 'cin' %}selected{% endif %}>N° CIN</option>
+        </select>
+        <input type="text" name="q" value="{{ query }}" placeholder="Rechercher..." style="flex: 1;">
+        <button type="submit" class="btn btn--secondary">Rechercher</button>
+    </form>
+
+    <p style="color: var(--text-muted); font-size: 13px;">{{ result_count }} résultat{{ result_count|pluralize }}</p>
+
+    {% if patients %}
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th><th>N° CNSS</th><th>Dernière visite</th><th>Visites</th><th>Statut</th><th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for patient in patients %}
+            <tr>
+                <td><a href="{% url 'patients:detail' patient.pk %}">{{ patient.full_name }}</a></td>
+                <td class="code">{{ patient.cnss_number|default:"—" }}</td>
+                <td>{{ patient.last_visit.date|default:"—" }}</td>
+                <td>{{ patient.visit_count }}</td>
+                <td>
+                    {% if patient.is_active %}
+                        <span class="badge badge--success">Actif</span>
+                    {% endif %}
+                </td>
+                <td><a href="{% url 'patients:edit' patient.pk %}">Modifier</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty-state">Aucun patient trouvé.</p>
+    {% endif %}
+</div>
+{% endblock %}

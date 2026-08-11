@@ -1,0 +1,126 @@
+{
+  "form_reference": "610-2-31 / ANAM 1.2.05.01",
+  "page": 0,
+
+  "top": {
+    "n_compostage": {"x": 91, "y": 510},
+  "dossier_hospitalisation_number": {"x": 133, "y": 491},
+  "room_number": {"x": 290, "y": 489},
+    "establishment_name": {"x": null, "y": null, "needs_review": true, "reason": "Not annotated"},
+    "establishment_code": {"x": null, "y": null, "needs_review": true, "reason": "Not annotated"}
+  },
+
+  "assure": {
+    "immatriculation_digits": {
+      "points": [
+        {"x": 118, "y": 442}, {"x": 129, "y": 442}, {"x": 141, "y": 442},
+        {"x": 153, "y": 442}, {"x": 164, "y": 442}, {"x": 176, "y": 442},
+        {"x": 189, "y": 442}, {"x": 200, "y": 442}, {"x": 212, "y": 442}
+      ]
+    },
+    "nom_prenom": {"x": 81, "y": 430},
+    "cin": {"x": 54, "y": 418},
+    "adresse": {"x": 54, "y": 406},
+    "adresse_line2": {"x": 24, "y": 394}
+  },
+
+  "beneficiaire": {
+    "nom_prenom": {"x": 79, "y": 366},
+    "cin_digits": {"x": 51, "y": 354},
+    "date_naissance":{
+      "points": [
+        {"x": 118, "y": 341}, {"x": 130, "y": 341}, {"x": 141, "y": 341},
+        {"x": 153, "y": 341}, {"x": 165, "y": 341}, {"x": 177, "y": 341},
+        {"x": 188, "y": 341}, {"x": 200, "y": 341}
+      ]
+    },
+    
+    
+    "sexe": {
+      "part1": {"x": 160, "y": 320},
+      "part2": {"x": 218, "y": 320}
+    },
+    "lien_parente_assure": {"x": 160, "y": 305},
+    "lien_parente_enfant": {"x": 160, "y": 290},
+    "lien_parente_conjoint": {"x": 160, "y": 274}
+  },
+
+  "hospitalisation": {
+    "service_hospitalisation": {"x": 108, "y": 249},
+    "inp_digits": {
+      "points": [
+        {"x": 126, "y": 232}, {"x": 138, "y": 232}, {"x": 150, "y": 232},
+        {"x": 161, "y": 232}, {"x": 174, "y": 232}, {"x": 185, "y": 232},
+        {"x": 197, "y": 232}, {"x": 209, "y": 232}, {"x": 220, "y": 232}
+      ]
+    },
+    "nature_hospitalisation_maladie": {"x": 160, "y": 214},
+    "nature_hospitalisation_ald": {"x": 160, "y": 198},
+    "nature_hospitalisation_maternite": {"x": 160, "y": 183},
+    "nature_hospitalisation_accident": {"x": 160, "y": 167},
+    "motif_hospitalisation": {"x": 23, "y": 143},
+    "date_prevue_digits": {
+      "points": [
+        {"x": 140, "y": 128}, {"x": 152, "y": 128}, {"x": 165, "y": 128},
+        {"x": 176, "y": 128}, {"x": 188, "y": 128}, {"x": 200, "y": 128},
+        {"x": 211, "y": 128}, {"x": 222, "y": 128}
+      ]
+    },
+    "urgence_date_digits": {
+      "points": [
+        {"x": 140, "y": 111}, {"x": 152, "y": 111}, {"x": 164, "y": 111},
+        {"x": 175, "y": 111}, {"x": 187, "y": 111}, {"x": 200, "y": 111},
+        {"x": 211, "y": 111}, {"x": 223, "y": 111}
+      ]
+    }
+  },
+
+  "signature_etablissement": {
+    "date": {"x": 50, "y": 32}
+  },
+
+  "estimation_rows": {
+    "text_start_x": 337,
+    "lettre_cle_x": 394,
+  "valeur_cle_x": 465,
+    "montant_x": 523,
+    "rows": [
+      {"label": "Actes médicaux", "y": 373},
+      {"label": "Actes chirurgicaux", "y": 359},
+      {"label": "Actes paramédicaux", "y": 349},
+      {"label": "Actes d'odontologie", "y": 338},
+      {"label": "Kinésithérapie", "y": 326},
+      {"label": "Anesthésie", "y": 314},
+      {"label": "Bloc opératoire/Salle d'accouchement", "y": 300},
+      {"label": "Surveillance Réanimation", "y": 282},
+      {"label": "Surveillance médicale", "y": 271},
+      {"label": "Biologie", "y": 247},
+      {"label": "Radiologie et imagerie médicale", "y": 231},
+      {"label": "Autres (anatomopathologie, ECG, EEG, Endoscopie...)", "y": 210},
+      {"label": "Pharmacie", "y": 182},
+      {"label": "Appareils et dispositifs médicaux", "y": 165},
+      {"label": "Sang et dérivés", "y": 150}
+    ]
+  },
+  "frais_de_sejour": {
+  "nbr_jour_x": 395,
+  "p_u_x": 466,
+  "total_ht_x": 524,
+  "rows": [
+    {"label": "Séjour Normal", "y": 439},
+    {"label": "Soins Intensifs", "y": 427},
+    {"label": "Réanimation", "y": 415},
+    {"label": "Couveuse", "y": 403}
+  ]
+},
+
+  "total_estimation": {
+    "montant": {"x": 522, "y": 136}
+  }
+}
+
+
+
+
+
+

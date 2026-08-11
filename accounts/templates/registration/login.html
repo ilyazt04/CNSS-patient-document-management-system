@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Connexion{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 360px; margin: 60px auto;">
+    <h1 style="font-size: 18px;">Connexion</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-field">
+            <label for="id_username">Nom d'utilisateur</label>
+            {{ form.username }}
+        </div>
+        <div class="form-field">
+            <label for="id_password">Mot de passe</label>
+            {{ form.password }}
+        </div>
+        {% if form.errors %}<p style="color: var(--danger); font-size: 13px;">Identifiants incorrects.</p>{% endif %}
+        <button type="submit" class="btn">Se connecter</button>
+    </form>
+</div>
+{% endblock %}

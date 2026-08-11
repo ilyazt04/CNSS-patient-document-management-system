@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Supprimer le document{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 480px;">
+    <h1 style="font-size: 17px;">Supprimer "{{ document.filename }}" ?</h1>
+    <p style="color: var(--text-muted); font-size: 14px;">Le document sera désactivé (suppression douce) et n'apparaîtra plus dans les listes, mais reste conservé sur le disque.</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn" style="background: var(--danger);">Confirmer la suppression</button>
+        <a href="{% if document.visit %}{% url 'visits:detail' document.visit.pk %}{% else %}{% url 'patients:detail' document.patient.pk %}{% endif %}" class="btn btn--secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

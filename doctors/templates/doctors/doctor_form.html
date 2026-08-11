@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{% if form.instance.pk %}Modifier{% else %}Nouveau{% endif %} médecin{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>{% if form.instance.pk %}Modifier le médecin{% else %}Nouveau médecin{% endif %}</h1>
+</div>
+
+<div class="card" style="max-width: 480px;">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-field"><label>Nom</label>{{ form.name }}</div>
+        <div class="form-field"><label>Spécialité</label>{{ form.specialty }}</div>
+        <div class="form-field"><label>Contact</label>{{ form.contact }}</div>
+        <div class="form-field"><label>N° INPE</label>{{ form.inpe_number }}</div>
+        <div class="form-field"><label>N° IF</label>{{ form.if_number }}</div>
+        <button type="submit" class="btn">Enregistrer</button>
+        <a href="{% url 'doctors:list' %}" class="btn btn--secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

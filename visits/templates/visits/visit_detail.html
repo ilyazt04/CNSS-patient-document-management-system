@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Visite — {{ visit.patient.full_name }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Visite — {{ visit.patient.full_name }}</h1>
+        <p style="color: var(--text-muted); font-size: 13px; margin: 4px 0 0;">
+            {{ visit.date }} · {{ visit.visit_type|default:"—" }}
+            {% if visit.stay_reference %} · N° admission : <span class="code">{{ visit.stay_reference }}</span>{% endif %}
+        </p>
+    </div>
+    <a href="{% url 'visits:edit' visit.pk %}" class="btn btn--secondary">Modifier</a>
+</div>
+
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            Statut :
+            {% if visit.status == "SENT_TO_CNSS" %}
+                <span class="badge badge--success">Envoyé à la CNSS</span>
+            {% else %}
+                <span class="badge badge--warning">En préparation</span>
+            {% endif %}
+        </div>
+        {% if visit.status == "IN_PREPARATION" %}
+        <form method="post" action="{% url 'visits:status' visit.pk %}">
+            {% csrf_token %}
+            <input type="hidden" name="status" value="SENT_TO_CNSS">
+            <button type="submit" class="btn">Marquer comme envoyé à la CNSS</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <h2 style="font-size: 15px; margin-top: 0;">Documents de la visite</h2>
+    {% if visit.documents.all %}
+    <div class="stat-grid">
+        {% for doc in visit.documents.all %}
+            {% if doc.is_active %}
+            <div class="card" style="margin-bottom: 0;">
+                {% if doc.thumbnail %}
+                    <img src="{{ doc.thumbnail.url }}" alt="{{ doc.filename }}" style="width: 100%; border-radius: 6px; margin-bottom: 8px; border: 1px solid var(--border);">
+                {% endif %}
+                <p style="font-size: 13px; font-weight: 600; margin: 0 0 2px;">{{ doc.document_type.name }}</p>
+                <p style="font-size: 12px; color: var(--text-muted); margin: 0 0 8px;">{{ doc.get_source_display }}</p>
+                <a href="{{ doc.file.url }}" target="_blank" style="font-size: 13px;">Voir</a>
+                <a href="{% url 'documents:delete' doc.pk %}?modal=1" style="font-size: 13px; color: var(--danger); margin-left: 8px;">Supprimer</a>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Aucun document pour cette visite.</p>
+    {% endif %}
+    <a href="{% url 'documents:upload_visit' visit.pk %}?modal=1" class="btn btn--secondary">+ Ajouter un document</a>
+</div>
+
+<div class="card">
+    <h2 style="font-size: 15px; margin-top: 0;">Génération PDF</h2>
+    <form method="post" action="{% url 'documents:generate_cnss' visit.pk %}" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn">Générer PDF CNSS</button>
+    </form>
+    <a href="{% url 'documents:generate_custom' visit.pk %}" class="btn btn--secondary">Générer PDF personnalisé</a>
+    <a href="{% url 'documents:cnss_form' visit.pk %}" class="btn btn--secondary">Remplir le dossier CNSS</a>
+</div>
+{% endblock %}

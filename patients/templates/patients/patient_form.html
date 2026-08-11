@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{% if form.instance.pk %}Modifier{% else %}Nouveau{% endif %} patient{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>{% if form.instance.pk %}Modifier le patient{% else %}Nouveau patient{% endif %}</h1>
+</div>
+
+<div class="card" style="max-width: 640px;">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-field"><label>Prénom</label>{{ form.first_name }}</div>
+        <div class="form-field"><label>Nom</label>{{ form.last_name }}</div>
+        <div class="form-field"><label>N° CNSS</label>{{ form.cnss_number }}</div>
+        <div class="form-field"><label>N° CIN</label>{{ form.cin_number }}</div>
+        <div class="form-field"><label>Date de naissance</label>{{ form.date_of_birth }}</div>
+        <div class="form-field"><label>Adresse</label>{{ form.address }}</div>
+        <div class="form-field"><label>Médecin</label>{{ form.doctor }}</div>
+        <div class="form-field"><label>Lien de parenté</label>{{ form.relationship_to_insured }}</div>
+
+        <fieldset style="border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+            <legend style="font-size: 13px; font-weight: 600;">Informations de l'assuré (si différent du bénéficiaire)</legend>
+            <div class="form-field"><label>Prénom de l'assuré</label>{{ form.insured_first_name }}</div>
+            <div class="form-field"><label>Nom de l'assuré</label>{{ form.insured_last_name }}</div>
+            <div class="form-field"><label>N° CNSS de l'assuré</label>{{ form.insured_cnss_number }}</div>
+            <div class="form-field"><label>N° CIN de l'assuré</label>{{ form.insured_cin_number }}</div>
+            <div class="form-field"><label>Adresse de l'assuré</label>{{ form.insured_address }}</div>
+            <div class="form-field"><label>Pays d'affiliation</label>{{ form.insured_affiliation_country }}</div>
+        </fieldset>
+
+        <button type="submit" class="btn">Enregistrer</button>
+        <a href="{% url 'patients:list' %}" class="btn btn--secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

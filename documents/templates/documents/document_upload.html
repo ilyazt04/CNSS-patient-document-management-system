@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Ajouter un document{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Ajouter un document</h1>
+</div>
+
+<div class="card" style="max-width: 480px;">
+    <p style="color: var(--text-muted); font-size: 13px;">
+        {% if visit %}
+            Visite du {{ visit.date }} — {{ visit.patient.full_name }}
+        {% else %}
+            Document administratif — {{ patient.full_name }}
+        {% endif %}
+    </p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-field">
+            <label>Fichier</label>
+            {{ form.file }}
+        </div>
+        <div class="form-field">
+            <label>Type de document</label>
+            {{ form.document_type_choice }}
+        </div>
+        <div class="form-field">
+            <label>Ou préciser un nouveau type</label>
+            {{ form.custom_type_name }}
+        </div>
+        {% if form.errors %}
+            <p style="color: var(--danger); font-size: 13px;">{{ form.non_field_errors }}</p>
+        {% endif %}
+        <button type="submit" class="btn">Importer</button>
+        <a href="{% if visit %}{% url 'visits:detail' visit.pk %}{% else %}{% url 'patients:detail' patient.pk %}{% endif %}" class="btn btn--secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

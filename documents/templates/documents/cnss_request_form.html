@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% block title %}Dossier CNSS — {{ visit.patient.full_name }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Dossier CNSS — {{ visit.patient.full_name }}</h1>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="card">
+        <h2 style="font-size: 15px; margin-top: 0;">Dossier</h2>
+        <div class="form-field"><label>N° de compostage</label>
+            <input type="text" name="n_compostage" value="{{ cnss_form.n_compostage }}"></div>
+        <div class="form-field"><label>N° du dossier d'hospitalisation</label>
+            <input type="text" name="dossier_hospitalisation_number" value="{{ cnss_form.dossier_hospitalisation_number }}"></div>
+        <div class="form-field"><label>N° Chambre</label>
+            <input type="text" name="room_number" value="{{ cnss_form.room_number }}"></div>
+    </div>
+
+    <div class="card">
+        <h2 style="font-size: 15px; margin-top: 0;">Assuré</h2>
+        <div class="form-field"><label>N° d'immatriculation</label>
+            <input type="text" name="insured_cnss_number" value="{{ cnss_form.insured_cnss_number }}" maxlength="9"></div>
+        <div class="form-field"><label>Prénom</label>
+            <input type="text" name="insured_first_name" value="{{ cnss_form.insured_first_name }}"></div>
+        <div class="form-field"><label>Nom</label>
+            <input type="text" name="insured_last_name" value="{{ cnss_form.insured_last_name }}"></div>
+        <div class="form-field"><label>N° CIN</label>
+            <input type="text" name="insured_cin_number" value="{{ cnss_form.insured_cin_number }}"></div>
+        <div class="form-field"><label>Adresse</label>
+            <input type="text" name="insured_address" value="{{ cnss_form.insured_address }}"></div>
+    </div>
+
+    <div class="card">
+        <h2 style="font-size: 15px; margin-top: 0;">Bénéficiaire des soins (si différent)</h2>
+        <div class="form-field"><label>Prénom</label>
+            <input type="text" name="beneficiary_first_name" value="{{ cnss_form.beneficiary_first_name }}"></div>
+        <div class="form-field"><label>Nom</label>
+            <input type="text" name="beneficiary_last_name" value="{{ cnss_form.beneficiary_last_name }}"></div>
+        <div class="form-field"><label>N° CIN</label>
+            <input type="text" name="beneficiary_cin_number" value="{{ cnss_form.beneficiary_cin_number }}" maxlength="8"></div>
+        <div class="form-field"><label>Date de naissance</label>
+            <input type="date" name="beneficiary_date_of_birth" value="{{ cnss_form.beneficiary_date_of_birth|date:'Y-m-d' }}"></div>
+        <div class="form-field">
+            <label>Sexe</label>
+            <label style="font-weight: normal;"><input type="radio" name="beneficiary_sex" value="F" {% if cnss_form.beneficiary_sex == "F" %}checked{% endif %} style="width: auto;"> Féminin</label>
+            <label style="font-weight: normal;"><input type="radio" name="beneficiary_sex" value="M" {% if cnss_form.beneficiary_sex == "M" %}checked{% endif %} style="width: auto;"> Masculin</label>
+        </div>
+        <div class="form-field">
+            <label>Lien de parenté</label>
+            <label style="font-weight: normal;"><input type="checkbox" name="relationship_to_insured" value="SELF" {% if "SELF" in cnss_form.relationship_to_insured %}checked{% endif %} style="width: auto;"> Assuré</label>
+            <label style="font-weight: normal;"><input type="checkbox" name="relationship_to_insured" value="CHILD" {% if "CHILD" in cnss_form.relationship_to_insured %}checked{% endif %} style="width: auto;"> Enfant</label>
+            <label style="font-weight: normal;"><input type="checkbox" name="relationship_to_insured" value="SPOUSE" {% if "SPOUSE" in cnss_form.relationship_to_insured %}checked{% endif %} style="width: auto;"> Conjoint</label>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 style="font-size: 15px; margin-top: 0;">Hospitalisation</h2>
+        <div class="form-field"><label>Service d'hospitalisation</label>
+            <input type="text" name="service_hospitalisation" value="{{ cnss_form.service_hospitalisation }}"></div>
+        <div class="form-field"><label>N° INP</label>
+            <input type="text" name="patient_inp_number" value="{{ cnss_form.patient_inp_number }}" maxlength="9"></div>
+        <div class="form-field">
+            <label>Nature d'hospitalisation</label>
+            <label style="font-weight: normal;"><input type="checkbox" name="hospitalization_type" value="MALADIE" {% if "MALADIE" in cnss_form.hospitalization_type %}checked{% endif %} style="width: auto;"> Maladie</label>
+            <label style="font-weight: normal;"><input type="checkbox" name="hospitalization_type" value="ALD" {% if "ALD" in cnss_form.hospitalization_type %}checked{% endif %} style="width: auto;"> ALD</label>
+            <label style="font-weight: normal;"><input type="checkbox" name="hospitalization_type" value="MATERNITE" {% if "MATERNITE" in cnss_form.hospitalization_type %}checked{% endif %} style="width: auto;"> Maternité</label>
+            <label style="font-weight: normal;"><input type="checkbox" name="hospitalization_type" value="ACCIDENT" {% if "ACCIDENT" in cnss_form.hospitalization_type %}checked{% endif %} style="width: auto;"> Accident</label>
+        </div>
+        <div class="form-field"><label>Motif d'hospitalisation</label>
+            <textarea name="admission_reason">{{ cnss_form.admission_reason }}</textarea></div>
+        <div class="form-field"><label>Date prévisible d'hospitalisation</label>
+            <input type="date" name="expected_admission_date" value="{{ cnss_form.expected_admission_date|date:'Y-m-d' }}"></div>
+        <div class="form-field">
+            <label><input type="checkbox" name="is_urgent" {% if cnss_form.is_urgent %}checked{% endif %} style="width: auto;"> Urgence</label>
+        </div>
+        <div class="form-field"><label>Date d'urgence</label>
+            <input type="date" name="urgent_date" value="{{ cnss_form.urgent_date|date:'Y-m-d' }}"></div>
+    </div>
+    <div class="card">
+    <h2 style="font-size: 15px; margin-top: 0;">Frais de séjour</h2>
+    <table style="width: 100%;">
+        <thead><tr><th></th><th>Nbr jour</th><th>P.U</th><th>Total H.T</th></tr></thead>
+        <tbody>
+        {% for line in cnss_form.frais_sejour_lines.all %}
+            <tr>
+                <td>{{ line.row_label }}</td>
+                <td><input type="text" name="fs_nbr_{{ line.id }}" value="{{ line.nbr_jour|default:'' }}" style="width: 70px;"></td>
+                <td><input type="text" step="0.01" name="fs_pu_{{ line.id }}" value="{{ line.p_u|default:'' }}" style="width: 90px;"></td>
+                <td><input type="number" step="0.01" name="fs_total_{{ line.id }}" value="{{ line.total_ht|default:'' }}" style="width: 90px;" class="fs-total"></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+    <div class="card">
+        <h2 style="font-size: 15px; margin-top: 0;">Estimation du Coût de l'hospitalisation</h2>
+        <table style="width: 100%;">
+{% for line in lines %}
+    {% if line.row_label == "Biologie" %}
+    <tr><td colspan="4" style="background: var(--bg); font-weight: 600; padding-top: 16px;">Examens</td></tr>
+    {% elif line.row_label == "Pharmacie" %}
+    <tr><td colspan="4" style="background: var(--bg); font-weight: 600; padding-top: 16px;">Fournitures</td></tr>
+    {% endif %}
+    <tr>
+        <td style="width: 25%;">{{ line.row_label }}</td>
+        <td>
+            <input type="text" name="text_{{ line.id }}" value="{{ line.text }}"
+                   list="phrases_{{ line.id }}" class="estimation-text" data-line="{{ line.id }}"
+                   placeholder="Code des actes">
+            <datalist id="phrases_{{ line.id }}">
+                {% for phrase in line.phrases %}
+                    <option value="{{ phrase.text }}" data-montant="{{ phrase.montant|default:'' }}"></option>
+                {% endfor %}
+            </datalist>
+        </td>
+        <td style="width: 90px;">
+            <input type="text" name="lettre_cle_{{ line.id }}" value="{{ line.lettre_cle }}" placeholder="Lettre clé">
+        </td>
+        <td style="width: 90px;">
+            <input type="text" name="valeur_cle_{{ line.id }}" value="{{ line.valeur_cle }}" placeholder="Valeur clé">
+        </td>
+        <td style="width: 120px;">
+            <input type="number" step="0.01" name="montant_{{ line.id }}"
+                   value="{{ line.montant|default:'' }}" class="estimation-montant" data-line="{{ line.id }}"
+                   placeholder="Montant">
+        </td>
+    </tr>
+{% endfor %}
+<tr>
+    <td colspan="4" style="text-align: right; font-weight: 600;">Total Estimation</td>
+    <td><input type="number" step="0.01" name="total_montant" id="id_total_montant" value="{{ cnss_form.total_montant|default:'' }}"></td>
+</tr>
+</table>
+    </div>
+
+    <button type="submit" name="action" value="save" class="btn btn--secondary">Enregistrer</button>
+    <button type="submit" name="action" value="save_and_generate" class="btn">Enregistrer et générer</button>
+    <a href="{% url 'visits:detail' visit.pk %}" class="btn btn--secondary">Annuler</a>
+</form>
+
+<script>
+document.querySelectorAll('.estimation-text').forEach(function (input) {
+    input.addEventListener('input', function () {
+        const lineId = input.dataset.line;
+        const datalist = document.getElementById('phrases_' + lineId);
+        const match = Array.from(datalist.options).find(o => o.value === input.value);
+        if (match && match.dataset.montant) {
+            const montantField = document.querySelector('[name="montant_' + lineId + '"]');
+            if (!montantField.value) montantField.value = match.dataset.montant;
+            recalculateTotal();
+        }
+    });
+});
+document.querySelectorAll('.estimation-montant, .fs-total').forEach(function (input) {
+    input.addEventListener('input', recalculateTotal);
+});
+function recalculateTotal() {
+    let sum = 0;
+    document.querySelectorAll('.estimation-montant, .fs-total').forEach(function (input) {
+        sum += parseFloat(input.value) || 0;
+    });
+    document.getElementById('id_total_montant').value = sum.toFixed(2);
+}
+</script>
+{% endblock %}

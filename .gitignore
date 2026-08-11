@@ -1,0 +1,26 @@
+# Virtual environment
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Environment variables / secrets
+.env
+.env.*
+
+# Django
+db.sqlite3
+*.sqlite3
+media/
+patients/4d983200-3852-4135-8cba-1a7da27063c9/
+patients/076dd679-7cff-451b-8871-14ffd8fe668c/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

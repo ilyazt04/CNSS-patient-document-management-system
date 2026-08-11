@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}PDF personnalisé{% endblock %}
+{% block content %}
+<div class="page-header"><h1>Générer un PDF personnalisé</h1></div>
+<div class="card">
+    <p style="color: var(--text-muted); font-size: 13px;">Cochez les documents dans l'ordre où ils doivent apparaître dans le PDF.</p>
+    <form method="post" id="custom-pdf-form">
+        {% csrf_token %}
+        <input type="hidden" name="order" id="id_order">
+        <div class="stat-grid">
+        {% for doc in documents %}
+            <label class="card" style="margin-bottom: 0; cursor: pointer;">
+                {% if doc.thumbnail %}
+                    <img src="{{ doc.thumbnail.url }}" style="width: 100%; border-radius: 6px; margin-bottom: 8px; border: 1px solid var(--border);">
+                {% endif %}
+                <input type="checkbox" class="doc-checkbox" name="selected" value="{{ doc.id }}">
+                {{ doc.document_type.name }}
+                <span class="order-badge" style="display:none; float:right; font-weight:700; color: var(--primary);"></span>
+            </label>
+        {% endfor %}
+        </div>
+        <button type="submit" class="btn">Générer le PDF</button>
+        <a href="{% url 'visits:detail' visit.pk %}" class="btn btn--secondary">Annuler</a>
+    </form>
+</div>
+<script>
+(function () {
+    const order = [];
+    document.querySelectorAll('.doc-checkbox').forEach(function (cb) {
+        cb.addEventListener('change', function () {
+            const badge = cb.closest('label').querySelector('.order-badge');
+            if (cb.checked) {
+                order.push(cb.value);
+            } else {
+                const i = order.indexOf(cb.value);
+                if (i > -1) order.splice(i, 1);
+            }
+            document.querySelectorAll('.doc-checkbox:checked').forEach(function (checked, idx) {
+                checked.closest('label').querySelector('.order-badge').textContent = '#' + (order.indexOf(checked.value) + 1);
+                checked.closest('label').querySelector('.order-badge').style.display = 'inline';
+            });
+            if (!cb.checked) { badge.style.display = 'none'; }
+        });
+    });
+    document.getElementById('custom-pdf-form').addEventListener('submit', function () {
+        document.getElementById('id_order').value = order.join(',');
+    });
+})();
+</script>
+{% endblock %}

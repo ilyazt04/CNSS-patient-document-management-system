@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{% if form.instance.pk %}Modifier{% else %}Nouvelle{% endif %} visite{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>{% if form.instance.pk %}Modifier la visite{% else %}Nouvelle visite{% endif %} — {{ patient.full_name }}</h1>
+</div>
+
+<div class="card" style="max-width: 480px;">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-field"><label>Date</label>{{ form.date }}</div>
+        <div class="form-field"><label>Type</label>{{ form.visit_type }}</div>
+        <div class="form-field"><label>Numéro d'admission</label>{{ form.stay_reference }}</div>
+        <div class="form-field"><label>Statut</label>{{ form.status }}</div>
+        <button type="submit" class="btn">Enregistrer</button>
+        <a href="{% url 'patients:detail' patient.pk %}" class="btn btn--secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}
