@@ -136,9 +136,12 @@
 </table>
     </div>
 
+    <div class="btn-row">
     <button type="submit" name="action" value="save" class="btn btn--secondary">Enregistrer</button>
     <button type="submit" name="action" value="save_and_generate" class="btn">Enregistrer et générer</button>
+    <a href="{% url 'documents:cnss_form_preview' visit.pk %}" class="btn btn--secondary" target="_blank">Aperçu</a>
     <a href="{% url 'visits:detail' visit.pk %}" class="btn btn--secondary">Annuler</a>
+</div>
 </form>
 
 <script>

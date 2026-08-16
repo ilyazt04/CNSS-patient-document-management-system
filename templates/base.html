@@ -4,16 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Clinique Tingis — Prises en charge{% endblock %}</title>
+    <title>{% block title %}Gestionnaire PEC{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <div class="layout">
         {% if user.is_authenticated %}
         <aside class="sidebar">
-            <div class="sidebar__brand">Prises en charge CNSS</div>
+            <div class="sidebar__brand">Gestionnaire PEC</div>
             <nav class="sidebar__nav">
                 <a href="{% url 'core:dashboard' %}">Tableau de bord</a>
+                <a href="{% url 'core:activity_log' %}">Activité</a>
                 <a href="{% url 'patients:list' %}">Patients</a>
                 <a href="{% url 'doctors:list' %}">Médecins</a>
                 <form method="post" action="{% url 'accounts:logout' %}" style="margin: 0;">

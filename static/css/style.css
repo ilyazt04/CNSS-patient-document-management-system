@@ -189,3 +189,10 @@ label.card { display: block; }
     cursor: pointer;
     color: var(--text-muted);
 }
+.btn-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}

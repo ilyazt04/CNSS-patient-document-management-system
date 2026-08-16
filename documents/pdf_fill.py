@@ -59,11 +59,17 @@ def _draw_checks_multi(c, selected_codes, code_to_point, font_size=11):
 
 
 def fill_cnss_form(cnss_form):
+    patient = cnss_form.visit.patient
     template = FormTemplate.objects.filter(
         document_type__name='Fiche CNSS', is_active=True,
+        insurance_provider=patient.insurance_provider,
     ).first()
     if not template:
-        raise ValueError("Aucun modèle de formulaire actif trouvé pour 'Fiche CNSS'.")
+        template = FormTemplate.objects.filter(
+            document_type__name='Fiche CNSS', is_active=True, insurance_provider__isnull=True,
+        ).first()
+    if not template:
+        raise ValueError("Aucun modèle de formulaire actif trouvé pour cet organisme.")
 
     mapping = template.field_mapping
     base_pdf = pypdf.PdfReader(template.blank_pdf.path)

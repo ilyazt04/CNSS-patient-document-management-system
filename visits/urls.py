@@ -10,4 +10,5 @@ urlpatterns = [
     path('<uuid:pk>/edit/', views.visit_edit, name='edit'),
     path('<uuid:pk>/status/', views.visit_cancel, name='status'),
     path('patient/<uuid:patient_pk>/add/', views.visit_create, name='create'),
+    path('<uuid:pk>/duplicate/', views.visit_duplicate, name='duplicate'),
 ]

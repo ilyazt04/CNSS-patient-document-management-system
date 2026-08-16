@@ -18,6 +18,7 @@
         <tr><th>Adresse</th><td>{{ patient.address|default:"—" }}</td></tr>
         <tr><th>Médecin</th><td>{{ patient.doctor|default:"—" }}</td></tr>
         <tr><th>Lien de parenté</th><td>{{ patient.get_relationship_to_insured_display }}</td></tr>
+        <tr><th>Organisme assureur</th><td>{{ patient.insurance_provider|default:"—" }}</td></tr>
         {% if patient.relationship_to_insured != "SELF" %}
         <tr><th>Assuré</th><td>{{ patient.insured_first_name }} {{ patient.insured_last_name }} — <span class="code">{{ patient.insured_cnss_number }}</span></td></tr>
         {% endif %}

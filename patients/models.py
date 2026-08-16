@@ -6,6 +6,16 @@ from core.models import AuditMixin, SoftDeleteMixin
 from doctors.models import Doctor
 
 
+class InsuranceProvider(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+    
 class Patient(AuditMixin, SoftDeleteMixin):
     class Relationship(models.TextChoices):
         SELF = 'SELF', 'Assuré principal'
@@ -22,6 +32,9 @@ class Patient(AuditMixin, SoftDeleteMixin):
     doctor = models.ForeignKey(
         Doctor, related_name='patients', null=True, blank=True, on_delete=models.SET_NULL,
     )
+    insurance_provider = models.ForeignKey(
+    InsuranceProvider, related_name='patients', null=True, blank=True, on_delete=models.SET_NULL,
+)
 
     # The patient is the bénéficiaire des soins, not always the assuré.
     relationship_to_insured = models.CharField(
@@ -61,3 +74,4 @@ class Patient(AuditMixin, SoftDeleteMixin):
             self.insured_first_name, self.insured_last_name,
             self.insured_cnss_number, self.insured_cin_number,
         )
+    

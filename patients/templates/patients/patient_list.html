@@ -7,15 +7,19 @@
 </div>
 
 <div class="card">
-    <form method="get" style="display: flex; gap: 10px; margin-bottom: 16px;">
+    <div class="btn-row">
+    <form method="get" style="display: flex; gap: 10px; margin: 0;">
         <select name="field" style="width: auto;">
             <option value="name" {% if field == 'name' %}selected{% endif %}>Nom</option>
             <option value="cnss" {% if field == 'cnss' %}selected{% endif %}>N° CNSS</option>
             <option value="cin" {% if field == 'cin' %}selected{% endif %}>N° CIN</option>
         </select>
-        <input type="text" name="q" value="{{ query }}" placeholder="Rechercher..." style="flex: 1;">
+        <input type="text" name="q" value="{{ query }}" placeholder="Rechercher...">
         <button type="submit" class="btn btn--secondary">Rechercher</button>
+        <a href="{% url 'patients:export_csv' %}?q={{ query }}&field={{ field }}" class="btn btn--secondary">Exporter en CSV</a>
     </form>
+    
+</div>
 
     <p style="color: var(--text-muted); font-size: 13px;">{{ result_count }} résultat{{ result_count|pluralize }}</p>
 

@@ -8,3 +8,9 @@ class PatientAdmin(admin.ModelAdmin):
     list_display = ('full_name', 'cnss_number', 'cin_number', 'doctor', 'is_active')
     search_fields = ('first_name', 'last_name', 'cnss_number', 'cin_number')
     list_filter = ('relationship_to_insured',)
+
+from .models import InsuranceProvider
+
+@admin.register(InsuranceProvider)
+class InsuranceProviderAdmin(admin.ModelAdmin):
+    list_display = ('name',)

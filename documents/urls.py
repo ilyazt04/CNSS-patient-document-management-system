@@ -13,4 +13,5 @@ urlpatterns = [
     path('visit/<uuid:visit_pk>/generate/custom/', views.generate_custom_pdf, name='generate_custom'),
     path('visit/<uuid:visit_pk>/cnss-form/', views.cnss_request_form_view, name='cnss_form'),
     path('visit/<uuid:visit_pk>/cnss-form/generate-sheet/', views.generate_filled_cnss_sheet, name='generate_cnss_sheet'),
+    path('visit/<uuid:visit_pk>/cnss-form/preview/', views.cnss_form_preview, name='cnss_form_preview'),
 ]

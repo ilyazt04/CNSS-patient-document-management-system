@@ -10,4 +10,5 @@ urlpatterns = [
     path('<uuid:pk>/', views.patient_detail, name='detail'),
     path('<uuid:pk>/edit/', views.patient_edit, name='edit'),
     path('<uuid:pk>/delete/', views.patient_delete, name='delete'),
+    path('export/', views.patient_export_csv, name='export_csv'),
 ]

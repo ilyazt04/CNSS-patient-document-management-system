@@ -325,3 +325,11 @@ def generate_filled_cnss_sheet(request, visit_pk):
         messages.success(request, "Fiche CNSS générée.")
 
     return redirect('visits:detail', pk=visit.pk)
+
+@login_required
+def cnss_form_preview(request, visit_pk):
+    visit = get_object_or_404(Visit, pk=visit_pk)
+    cnss_form = get_object_or_404(CNSSRequestForm, visit=visit)
+    return render(request, 'documents/cnss_form_preview.html', {
+        'visit': visit, 'cnss_form': cnss_form,
+    })

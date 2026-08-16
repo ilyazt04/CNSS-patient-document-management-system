@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Supprimer{% endblock %}
 {% block content %}
-<div class="card" style="max-width: 480px;">
+<div class="card" style="max-width: 480px; margin: 0 auto;">
     <h1 style="font-size: 17px;">Supprimer {{ patient.full_name }} ?</h1>
     <p style="color: var(--text-muted); font-size: 14px;">Le patient sera désactivé (suppression douce) et n'apparaîtra plus dans les listes, mais ses données restent conservées.</p>
     <form method="post">

@@ -7,7 +7,7 @@ from django.conf import settings
 from django.db import models
 
 from core.models import AuditMixin, SoftDeleteMixin
-from patients.models import Patient
+from patients.models import Patient, InsuranceProvider
 from visits.models import Visit
 
 
@@ -103,16 +103,23 @@ class Document(AuditMixin, SoftDeleteMixin):
         return self.patient_id is not None
 
 
+
+
 class FormTemplate(AuditMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
     document_type = models.ForeignKey(DocumentType, on_delete=models.PROTECT)
+    insurance_provider = models.ForeignKey(
+        InsuranceProvider, null=True, blank=True, on_delete=models.SET_NULL,
+        help_text="Laisser vide pour un modèle générique (CNSS par défaut).",
+    )
     blank_pdf = models.FileField(upload_to='form_templates/')
     field_mapping = models.JSONField(default=dict, blank=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.name
+        provider = self.insurance_provider.name if self.insurance_provider else 'Générique'
+        return f'{self.name} ({provider})'
 
 
 ESTIMATION_ROW_LABELS = [

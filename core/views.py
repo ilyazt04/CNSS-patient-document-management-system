@@ -6,6 +6,7 @@ from patients.models import Patient
 from visits.models import Visit
 
 from .models import AuditLog
+from django.contrib.auth import get_user_model
 
 
 @login_required
@@ -18,4 +19,25 @@ def dashboard(request):
             'document_type', 'patient', 'visit__patient'
         )[:5],
         'recent_activity': AuditLog.objects.select_related('user')[:8],
+    })
+
+@login_required
+def activity_log(request):
+    User = get_user_model()
+    logs = AuditLog.objects.select_related('user').all()
+
+    table_filter = request.GET.get('table', '')
+    if table_filter:
+        logs = logs.filter(table_name=table_filter)
+
+    user_filter = request.GET.get('user', '')
+    if user_filter:
+        logs = logs.filter(user_id=user_filter)
+
+    return render(request, 'activity_log.html', {
+        'logs': logs[:200],
+        'table_filter': table_filter,
+        'user_filter': user_filter,
+        'table_choices': AuditLog.objects.order_by('table_name').values_list('table_name', flat=True).distinct(),
+        'users': User.objects.filter(id__in=AuditLog.objects.values_list('user_id', flat=True).distinct()),
     })

@@ -6,4 +6,5 @@ app_name = 'core'
 
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
+    path('activite/', views.activity_log, name='activity_log'),
 ]

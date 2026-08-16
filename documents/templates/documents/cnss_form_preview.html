@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Aperçu — Dossier CNSS{% endblock %}
+{% block content %}
+<div class="page-header"><h1>Aperçu du dossier CNSS — {{ visit.patient.full_name }}</h1></div>
+<div class="card">
+    <h2 style="font-size: 15px; margin-top: 0;">Assuré</h2>
+    <table>
+        <tr><th>Nom</th><td>{{ cnss_form.insured_first_name }} {{ cnss_form.insured_last_name }}</td></tr>
+        <tr><th>N° CNSS</th><td class="code">{{ cnss_form.insured_cnss_number }}</td></tr>
+        <tr><th>N° CIN</th><td class="code">{{ cnss_form.insured_cin_number }}</td></tr>
+        <tr><th>Adresse</th><td>{{ cnss_form.insured_address }}</td></tr>
+    </table>
+</div>
+<div class="card">
+    <h2 style="font-size: 15px; margin-top: 0;">Bénéficiaire</h2>
+    <table>
+        <tr><th>Nom</th><td>{{ cnss_form.beneficiary_first_name }} {{ cnss_form.beneficiary_last_name }}</td></tr>
+        <tr><th>N° CIN</th><td class="code">{{ cnss_form.beneficiary_cin_number }}</td></tr>
+        <tr><th>Sexe</th><td>{{ cnss_form.get_beneficiary_sex_display }}</td></tr>
+        <tr><th>Lien de parenté</th><td>{{ cnss_form.relationship_to_insured }}</td></tr>
+    </table>
+</div>
+<div class="card">
+    <h2 style="font-size: 15px; margin-top: 0;">Estimation</h2>
+    <table>
+        <thead><tr><th>Prestation</th><th>Lettre clé</th><th>Valeur clé</th><th>Montant</th></tr></thead>
+        <tbody>
+        {% for line in cnss_form.lines.all %}
+            {% if line.text %}
+            <tr><td>{{ line.row_label }} — {{ line.text }}</td><td>{{ line.lettre_cle }}</td><td>{{ line.valeur_cle }}</td><td>{{ line.montant|default:"—" }}</td></tr>
+            {% endif %}
+        {% endfor %}
+        <tr><td colspan="3" style="text-align:right; font-weight:600;">Total</td><td>{{ cnss_form.total_montant|default:"—" }}</td></tr>
+        </tbody>
+    </table>
+</div>
+<a href="{% url 'documents:cnss_form' visit.pk %}" class="btn btn--secondary">Retour au formulaire</a>
+{% endblock %}

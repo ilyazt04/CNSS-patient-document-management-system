@@ -58,11 +58,16 @@
 
 <div class="card">
     <h2 style="font-size: 15px; margin-top: 0;">Génération PDF</h2>
-    <form method="post" action="{% url 'documents:generate_cnss' visit.pk %}" style="display: inline;">
-        {% csrf_token %}
-        <button type="submit" class="btn">Générer PDF CNSS</button>
-    </form>
-    <a href="{% url 'documents:generate_custom' visit.pk %}" class="btn btn--secondary">Générer PDF personnalisé</a>
-    <a href="{% url 'documents:cnss_form' visit.pk %}" class="btn btn--secondary">Remplir le dossier CNSS</a>
+    <div class="btn-row">
+        
+        
+        <form method="post" action="{% url 'documents:generate_cnss' visit.pk %}" style="margin: 0;">
+            {% csrf_token %}
+            <button type="submit" class="btn">Générer PDF CNSS</button>
+            <a href="{% url 'documents:generate_custom' visit.pk %}" class="btn btn--secondary">Générer PDF personnalisé</a>
+        <a href="{% url 'documents:cnss_form' visit.pk %}" class="btn btn--secondary">Remplir le dossier CNSS</a>
+        <a href="{% url 'visits:duplicate' visit.pk %}" class="btn btn--secondary">Dupliquer cette visite</a>
+        </form>
+    </div>
 </div>
 {% endblock %}
