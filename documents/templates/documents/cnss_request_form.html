@@ -8,18 +8,27 @@
 <form method="post">
     {% csrf_token %}
 
-    <div class="card">
-        <h2 style="font-size: 15px; margin-top: 0;">Dossier</h2>
+    <div class="cnss-accordion" id="cnssAccordion">
+        <div class="cnss-accordion__item">
+            <button type="button" class="cnss-accordion__header is-open" aria-expanded="true">
+                <span>Dossier</span>
+                <span class="cnss-accordion__icon">+</span>
+            </button>
+            <div class="cnss-accordion__content is-open">
         <div class="form-field"><label>N° de compostage</label>
             <input type="text" name="n_compostage" value="{{ cnss_form.n_compostage }}"></div>
         <div class="form-field"><label>N° du dossier d'hospitalisation</label>
             <input type="text" name="dossier_hospitalisation_number" value="{{ cnss_form.dossier_hospitalisation_number }}"></div>
         <div class="form-field"><label>N° Chambre</label>
             <input type="text" name="room_number" value="{{ cnss_form.room_number }}"></div>
-    </div>
-
-    <div class="card">
-        <h2 style="font-size: 15px; margin-top: 0;">Assuré</h2>
+            </div>
+        </div>
+        <div class="cnss-accordion__item">
+            <button type="button" class="cnss-accordion__header" aria-expanded="false">
+                <span>Assuré</span>
+                <span class="cnss-accordion__icon">+</span>
+            </button>
+            <div class="cnss-accordion__content">
         <div class="form-field"><label>N° d'immatriculation</label>
             <input type="text" name="insured_cnss_number" value="{{ cnss_form.insured_cnss_number }}" maxlength="9"></div>
         <div class="form-field"><label>Prénom</label>
@@ -30,10 +39,14 @@
             <input type="text" name="insured_cin_number" value="{{ cnss_form.insured_cin_number }}"></div>
         <div class="form-field"><label>Adresse</label>
             <input type="text" name="insured_address" value="{{ cnss_form.insured_address }}"></div>
-    </div>
-
-    <div class="card">
-        <h2 style="font-size: 15px; margin-top: 0;">Bénéficiaire des soins (si différent)</h2>
+            </div>
+        </div>
+        <div class="cnss-accordion__item">
+            <button type="button" class="cnss-accordion__header" aria-expanded="false">
+                <span>Bénéficiaire des soins (si différent)</span>
+                <span class="cnss-accordion__icon">+</span>
+            </button>
+            <div class="cnss-accordion__content">
         <div class="form-field"><label>Prénom</label>
             <input type="text" name="beneficiary_first_name" value="{{ cnss_form.beneficiary_first_name }}"></div>
         <div class="form-field"><label>Nom</label>
@@ -53,10 +66,14 @@
             <label style="font-weight: normal;"><input type="checkbox" name="relationship_to_insured" value="CHILD" {% if "CHILD" in cnss_form.relationship_to_insured %}checked{% endif %} style="width: auto;"> Enfant</label>
             <label style="font-weight: normal;"><input type="checkbox" name="relationship_to_insured" value="SPOUSE" {% if "SPOUSE" in cnss_form.relationship_to_insured %}checked{% endif %} style="width: auto;"> Conjoint</label>
         </div>
-    </div>
-
-    <div class="card">
-        <h2 style="font-size: 15px; margin-top: 0;">Hospitalisation</h2>
+            </div>
+        </div>
+        <div class="cnss-accordion__item">
+            <button type="button" class="cnss-accordion__header" aria-expanded="false">
+                <span>Hospitalisation</span>
+                <span class="cnss-accordion__icon">+</span>
+            </button>
+            <div class="cnss-accordion__content">
         <div class="form-field"><label>Service d'hospitalisation</label>
             <input type="text" name="service_hospitalisation" value="{{ cnss_form.service_hospitalisation }}"></div>
         <div class="form-field"><label>N° INP</label>
@@ -77,9 +94,14 @@
         </div>
         <div class="form-field"><label>Date d'urgence</label>
             <input type="date" name="urgent_date" value="{{ cnss_form.urgent_date|date:'Y-m-d' }}"></div>
-    </div>
-    <div class="card">
-    <h2 style="font-size: 15px; margin-top: 0;">Frais de séjour</h2>
+            </div>
+        </div>
+        <div class="cnss-accordion__item">
+            <button type="button" class="cnss-accordion__header" aria-expanded="false">
+                <span>Frais de séjour</span>
+                <span class="cnss-accordion__icon">+</span>
+            </button>
+            <div class="cnss-accordion__content">
     <table style="width: 100%;">
         <thead><tr><th></th><th>Nbr jour</th><th>P.U</th><th>Total H.T</th></tr></thead>
         <tbody>
@@ -93,19 +115,23 @@
         {% endfor %}
         </tbody>
     </table>
-</div>
-
-    <div class="card">
-        <h2 style="font-size: 15px; margin-top: 0;">Estimation du Coût de l'hospitalisation</h2>
-        <table style="width: 100%;">
+            </div>
+        </div>
+        <div class="cnss-accordion__item">
+            <button type="button" class="cnss-accordion__header" aria-expanded="false">
+                <span>Estimation du Coût de l'hospitalisation</span>
+                <span class="cnss-accordion__icon">+</span>
+            </button>
+            <div class="cnss-accordion__content">
+        <table class="estimation-table">
 {% for line in lines %}
     {% if line.row_label == "Biologie" %}
-    <tr><td colspan="4" style="background: var(--bg); font-weight: 600; padding-top: 16px;">Examens</td></tr>
+    <tr><td colspan="5" style="background: var(--bg); font-weight: 600; padding-top: 16px;">Examens</td></tr>
     {% elif line.row_label == "Pharmacie" %}
-    <tr><td colspan="4" style="background: var(--bg); font-weight: 600; padding-top: 16px;">Fournitures</td></tr>
+    <tr><td colspan="5" style="background: var(--bg); font-weight: 600; padding-top: 16px;">Fournitures</td></tr>
     {% endif %}
     <tr>
-        <td style="width: 25%;">{{ line.row_label }}</td>
+        <td>{{ line.row_label }}</td>
         <td>
             <input type="text" name="text_{{ line.id }}" value="{{ line.text }}"
                    list="phrases_{{ line.id }}" class="estimation-text" data-line="{{ line.id }}"
@@ -116,13 +142,13 @@
                 {% endfor %}
             </datalist>
         </td>
-        <td style="width: 90px;">
+        <td>
             <input type="text" name="lettre_cle_{{ line.id }}" value="{{ line.lettre_cle }}" placeholder="Lettre clé">
         </td>
-        <td style="width: 90px;">
+        <td>
             <input type="text" name="valeur_cle_{{ line.id }}" value="{{ line.valeur_cle }}" placeholder="Valeur clé">
         </td>
-        <td style="width: 120px;">
+        <td>
             <input type="number" step="0.01" name="montant_{{ line.id }}"
                    value="{{ line.montant|default:'' }}" class="estimation-montant" data-line="{{ line.id }}"
                    placeholder="Montant">
@@ -134,8 +160,9 @@
     <td><input type="number" step="0.01" name="total_montant" id="id_total_montant" value="{{ cnss_form.total_montant|default:'' }}"></td>
 </tr>
 </table>
+            </div>
+        </div>
     </div>
-
     <div class="btn-row">
     <button type="submit" name="action" value="save" class="btn btn--secondary">Enregistrer</button>
     <button type="submit" name="action" value="save_and_generate" class="btn">Enregistrer et générer</button>
@@ -145,6 +172,28 @@
 </form>
 
 <script>
+document.querySelectorAll('.cnss-accordion__header').forEach(function (header) {
+    header.addEventListener('click', function () {
+        const item = header.parentElement;
+        const content = item.querySelector('.cnss-accordion__content');
+        const isOpen = header.classList.contains('is-open');
+
+        // Close every section first.
+        document.querySelectorAll('.cnss-accordion__header').forEach(function (otherHeader) {
+            otherHeader.classList.remove('is-open');
+            otherHeader.setAttribute('aria-expanded', 'false');
+            otherHeader.parentElement.querySelector('.cnss-accordion__content').classList.remove('is-open');
+        });
+
+        // Open the clicked section if it was previously closed.
+        if (!isOpen) {
+            header.classList.add('is-open');
+            header.setAttribute('aria-expanded', 'true');
+            content.classList.add('is-open');
+        }
+    });
+});
+
 document.querySelectorAll('.estimation-text').forEach(function (input) {
     input.addEventListener('input', function () {
         const lineId = input.dataset.line;

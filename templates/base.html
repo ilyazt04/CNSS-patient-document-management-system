@@ -4,23 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Gestionnaire PEC{% endblock %}</title>
+    <title>{% block title %}Gestionnaire PEC{% endblock %} — PEC Manager</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body{% if not user.is_authenticated %} class="no-sidebar"{% endif %}>
     <div class="layout">
         {% if user.is_authenticated %}
         <aside class="sidebar">
-            <div class="sidebar__brand">Gestionnaire PEC</div>
+            <div class="sidebar__brand">
+                <span class="sidebar__brand-mark">PEC</span>
+                <span class="sidebar__brand-sub">Clinique Tingis</span>
+            </div>
             <nav class="sidebar__nav">
-                <a href="{% url 'core:dashboard' %}">Tableau de bord</a>
-                <a href="{% url 'core:activity_log' %}">Activité</a>
-                <a href="{% url 'patients:list' %}">Patients</a>
-                <a href="{% url 'doctors:list' %}">Médecins</a>
-                <form method="post" action="{% url 'accounts:logout' %}" style="margin: 0;">
-                    {% csrf_token %}
-                    <button type="submit" style="background: none; border: none; padding: 10px 20px; width: 100%; text-align: left; color: #C9DEDA; font-size: 14px; cursor: pointer; font-family: inherit;">Déconnexion</button>
-                </form>           
+                <a href="{% url 'core:dashboard' %}">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+                    Tableau de bord
+                </a>
+                <a href="{% url 'core:activity_log' %}">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg>
+                    Activité
+                </a>
+                <a href="{% url 'patients:list' %}">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.6 2.9-6.2 6.5-6.2s6.5 2.6 6.5 6.2"/><circle cx="17.5" cy="8.5" r="2.4"/><path d="M16 13.8c2.7.4 4.5 2.6 4.5 5.4"/></svg>
+                    Patients
+                </a>
+                <a href="{% url 'doctors:list' %}">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v4a3 3 0 0 0 6 0V3"/><path d="M12 12v3"/><circle cx="12" cy="18" r="3"/></svg>
+                    Médecins
+                </a>
+                <div class="sidebar__logout">
+                    <form method="post" action="{% url 'accounts:logout' %}" style="margin: 0;">
+                        {% csrf_token %}
+                        <button type="submit">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+                            Déconnexion
+                        </button>
+                    </form>
+                </div>
             </nav>
         </aside>
         {% endif %}

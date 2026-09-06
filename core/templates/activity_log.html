@@ -3,20 +3,25 @@
 {% block content %}
 <div class="page-header"><h1>Activité récente</h1></div>
 <div class="card">
-    <form method="get" style="margin-bottom: 16px; display: flex; gap: 10px;">
-        <select name="table" onchange="this.form.submit()">
-            <option value="">Toutes les tables</option>
-            {% for t in table_choices %}
-                <option value="{{ t }}" {% if t == table_filter %}selected{% endif %}>{{ t }}</option>
-            {% endfor %}
-        </select>
-        <select name="user" onchange="this.form.submit()">
-            <option value="">Tous les utilisateurs</option>
-            {% for u in users %}
-                <option value="{{ u.id }}" {% if user_filter == u.id|stringformat:"s" %}selected{% endif %}>{{ u.username }}</option>
-            {% endfor %}
-        </select>
-    </form>
+    <form method="get" style="margin-bottom: 16px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+    <select name="table" onchange="this.form.submit()">
+        <option value="">Toutes les tables</option>
+        {% for t in table_choices %}
+            <option value="{{ t }}" {% if t == table_filter %}selected{% endif %}>{{ t }}</option>
+        {% endfor %}
+    </select>
+    <select name="user" onchange="this.form.submit()">
+        <option value="">Tous les utilisateurs</option>
+        {% for u in users %}
+            <option value="{{ u.id }}" {% if user_filter == u.id|stringformat:"s" %}selected{% endif %}>{{ u.username }}</option>
+        {% endfor %}
+    </select>
+    <label style="font-size: 13px;">Du</label>
+    <input type="date" name="date_from" value="{{ date_from }}" onchange="this.form.submit()">
+    <label style="font-size: 13px;">Au</label>
+    <input type="date" name="date_to" value="{{ date_to }}" onchange="this.form.submit()">
+    <a href="{% url 'core:activity_log' %}" class="btn btn--secondary" style="padding: 6px 12px; font-size: 13px;">Réinitialiser</a>
+</form>
     
     <table>
         <thead><tr><th>Action</th><th>Table</th><th>Utilisateur</th><th>Date</th><th>Détail</th></tr></thead>

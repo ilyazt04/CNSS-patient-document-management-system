@@ -2,7 +2,10 @@
 {% block title %}Tableau de bord{% endblock %}
 {% block content %}
 <div class="page-header">
-    <h1>Tableau de bord</h1>
+    <div>
+        <h1>Tableau de bord</h1>
+        <p class="subtitle">Vue d'ensemble des dossiers et de l'activité récente.</p>
+    </div>
 </div>
 
 <div class="stat-grid">
@@ -31,7 +34,8 @@
                 <td>{{ doc.filename }}</td>
                 <td>{{ doc.document_type.name }}</td>
                 <td>{{ doc.get_source_display }}</td>
-                <td>{% if doc.patient %}{{ doc.patient }}{% else %}{{ doc.visit.patient }}{% endif %}</td>            </tr>
+                <td>{% if doc.patient %}{{ doc.patient }}{% else %}{{ doc.visit.patient }}{% endif %}</td>
+            </tr>
         {% endfor %}
         </tbody>
     </table>
